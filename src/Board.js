@@ -27,7 +27,7 @@ import "./Board.css";
  *
  **/
 
-function Board({ nrows, ncols, chanceLightStartsOn }) {
+function Board({ nrows = 6, ncols = 6, chanceLightStartsOn = 0.25 }) {
   const [board, setBoard] = useState(createBoard());
 
   /** create a board nrows high/ncols wide, each cell randomly lit or unlit */
@@ -85,6 +85,27 @@ function Board({ nrows, ncols, chanceLightStartsOn }) {
   // make table board
 
   // TODO
+  let tableBoard = [];
+
+  for (let i = 0; i<nrows; i ++){
+    let row = [];
+    for (let j=0; j<ncols; j++){
+      let coord = `${i}-${j}`;
+      row.push(
+        <Cell
+        key = {coord}
+        isLit = {board[i][j]}
+        flipCellsAroundMe = {()=> flipCellsAround(coord)}
+        />
+      );
+    }
+    tableBoard.push(<tr key={i}>{row}</tr>)
+  }
+  return (
+    <table className="Board">
+      <tbody>{tableBoard}</tbody>
+    </table>
+  );
 }
 
 export default Board;
